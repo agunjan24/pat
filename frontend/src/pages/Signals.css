@@ -1,0 +1,154 @@
+.scan-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.scan-btn {
+  background: #646cff;
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.scan-btn:hover {
+  opacity: 0.85;
+}
+
+.scan-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Recommendation banner */
+.recommendation {
+  background: #1a1a2e;
+  border: 2px solid;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.rec-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.rec-direction {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.rec-symbol {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.rec-price {
+  font-size: 1.2rem;
+  color: #aaa;
+}
+
+.conviction-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.conviction-high {
+  background: rgba(80, 200, 120, 0.2);
+  color: #50c878;
+}
+
+.conviction-medium {
+  background: rgba(245, 166, 35, 0.2);
+  color: #f5a623;
+}
+
+.conviction-low {
+  background: rgba(136, 136, 136, 0.2);
+  color: #888;
+}
+
+.rec-meta {
+  display: flex;
+  gap: 2rem;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+/* Risk cards */
+.risk-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.risk-card {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.risk-label {
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.risk-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Signal chart */
+.signal-chart-container {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.signal-chart-container h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+/* Signal table */
+.signal-table-section {
+  margin-bottom: 2rem;
+}
+
+.signal-name {
+  text-transform: capitalize;
+  font-weight: 500;
+  color: #646cff;
+}
+
+.signal-desc {
+  color: #888;
+  font-size: 0.85rem;
+}
