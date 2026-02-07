@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
 from app.database import init_db
-from app.routers import analyzer, options, portfolio, signals
+from app.routers import alerts, analyzer, import_export, options, paper_trading, portfolio, signals
 
 
 @asynccontextmanager
@@ -30,6 +30,9 @@ app.include_router(portfolio.router, prefix="/api/portfolio", tags=["portfolio"]
 app.include_router(analyzer.router, prefix="/api/analyze", tags=["analyzer"])
 app.include_router(signals.router, prefix="/api/signals", tags=["signals"])
 app.include_router(options.router, prefix="/api/options", tags=["options"])
+app.include_router(import_export.router, prefix="/api/portfolio", tags=["import"])
+app.include_router(alerts.router, prefix="/api/alerts", tags=["alerts"])
+app.include_router(paper_trading.router, prefix="/api/paper", tags=["paper-trading"])
 
 
 @app.get("/api/health")

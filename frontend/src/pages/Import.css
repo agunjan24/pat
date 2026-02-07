@@ -1,0 +1,76 @@
+.import-desc {
+  color: #aaa;
+  margin-bottom: 1.5rem;
+}
+
+.import-desc code {
+  background: #1a1a2e;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.import-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.file-input {
+  color: #aaa;
+}
+
+.import-btn {
+  background: #646cff;
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.import-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.import-result {
+  margin-top: 1.5rem;
+}
+
+.import-stats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.stat-ok {
+  color: #50c878;
+}
+
+.stat-skip {
+  color: #f5a623;
+}
+
+.import-errors {
+  background: rgba(229, 83, 83, 0.1);
+  border: 1px solid #e55353;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.import-errors h3 {
+  margin-top: 0;
+  color: #e55353;
+}
+
+.import-errors li {
+  color: #ccc;
+  font-size: 0.9rem;
+}

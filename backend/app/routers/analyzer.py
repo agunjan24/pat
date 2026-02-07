@@ -3,7 +3,10 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+import pandas as pd
+
 from app.analyzer.metrics import cagr, daily_returns, max_drawdown, sharpe_ratio
+from app.analyzer.optimizer import compute_efficient_frontier
 from app.database import get_db
 from app.models.portfolio import Position
 from app.schemas.analyzer import (
@@ -14,6 +17,7 @@ from app.schemas.analyzer import (
     PricePoint,
     RiskMetrics,
 )
+from app.schemas.optimizer import FrontierPointOut, OptimizationOut
 from app.tracker.market_data import get_current_price, get_history
 
 router = APIRouter()
@@ -147,4 +151,46 @@ async def symbol_performance(
         period=period,
         prices=prices_list,
         metrics=metrics,
+    )
+
+
+@router.get("/optimize", response_model=OptimizationOut)
+async def optimize_portfolio(
+    symbols: str = Query(..., description="Comma-separated ticker symbols"),
+    period: str = Query("1y", description="Historical period for returns"),
+):
+    """Compute efficient frontier, max Sharpe, min variance, and risk parity."""
+    symbol_list = [s.strip().upper() for s in symbols.split(",") if s.strip()]
+    if len(symbol_list) < 2:
+        raise HTTPException(status_code=400, detail="Need at least 2 symbols")
+
+    # Fetch historical closes
+    closes = {}
+    for sym in symbol_list:
+        df = await get_history(sym, period=period)
+        if df.empty:
+            raise HTTPException(status_code=404, detail=f"No data for {sym}")
+        closes[sym] = df["Close"]
+
+    prices_df = pd.DataFrame(closes).dropna()
+    if len(prices_df) < 30:
+        raise HTTPException(status_code=400, detail="Insufficient overlapping price data")
+
+    returns_df = prices_df.pct_change().dropna()
+    result = compute_efficient_frontier(returns_df)
+
+    def _to_out(fp):
+        return FrontierPointOut(
+            expected_return=fp.expected_return,
+            volatility=fp.volatility,
+            sharpe_ratio=fp.sharpe_ratio,
+            weights=fp.weights,
+        )
+
+    return OptimizationOut(
+        symbols=result.symbols,
+        min_variance=_to_out(result.min_variance),
+        max_sharpe=_to_out(result.max_sharpe),
+        risk_parity=_to_out(result.risk_parity),
+        frontier=[_to_out(fp) for fp in result.frontier],
     )

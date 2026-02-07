@@ -1,0 +1,187 @@
+.alert-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.alert-input {
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #1a1a2e;
+  color: #fff;
+  font-size: 0.95rem;
+  min-width: 120px;
+}
+
+.alert-input-sm {
+  max-width: 120px;
+}
+
+.alert-select {
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #1a1a2e;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.alert-btn {
+  background: #646cff;
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.alert-btn:hover {
+  opacity: 0.85;
+}
+
+.alert-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.alert-actions {
+  margin-bottom: 1.5rem;
+}
+
+.check-btn {
+  background: #f5a623;
+}
+
+/* Check results */
+.check-results {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.check-results h2 {
+  margin: 0 0 0.8rem;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #222;
+  font-size: 0.9rem;
+}
+
+.check-item:last-child {
+  border-bottom: none;
+}
+
+.check-item.triggered {
+  background: rgba(229, 83, 83, 0.05);
+}
+
+.check-sym {
+  font-weight: 600;
+  color: #fff;
+  min-width: 60px;
+}
+
+.check-type {
+  color: #aaa;
+  text-transform: capitalize;
+}
+
+.check-val {
+  color: #ccc;
+}
+
+.check-status {
+  margin-left: auto;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.status-triggered {
+  color: #e55353;
+}
+
+.status-ok {
+  color: #50c878;
+}
+
+/* Alerts table */
+.alerts-table {
+  width: 100%;
+}
+
+.note-col {
+  color: #888;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.row-triggered {
+  background: rgba(229, 83, 83, 0.05);
+}
+
+.badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.badge-active {
+  background: rgba(80, 200, 120, 0.15);
+  color: #50c878;
+}
+
+.badge-triggered {
+  background: rgba(229, 83, 83, 0.15);
+  color: #e55353;
+}
+
+.badge-inactive {
+  background: rgba(136, 136, 136, 0.15);
+  color: #888;
+}
+
+.del-btn {
+  background: transparent;
+  border: 1px solid #444;
+  color: #888;
+  width: 28px;
+  height: 28px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.del-btn:hover {
+  border-color: #e55353;
+  color: #e55353;
+}
+
+.no-data {
+  color: #888;
+  padding: 2rem;
+  text-align: center;
+}

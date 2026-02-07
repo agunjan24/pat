@@ -1,0 +1,142 @@
+/* Account stats */
+.paper-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.paper-stat {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.positive {
+  color: #50c878;
+}
+
+.negative {
+  color: #e55353;
+}
+
+/* Trade form */
+.trade-form {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.trade-form h2 {
+  margin: 0 0 0.8rem;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.trade-form-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.trade-input {
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #16213e;
+  color: #fff;
+  font-size: 0.95rem;
+  min-width: 100px;
+}
+
+.trade-input-sm {
+  max-width: 100px;
+}
+
+.trade-select {
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #16213e;
+  color: #fff;
+  font-size: 0.95rem;
+}
+
+.trade-btn {
+  background: #646cff;
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.trade-btn:hover {
+  opacity: 0.85;
+}
+
+.trade-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.close-btn {
+  background: #f5a623;
+  border: none;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.close-btn:hover {
+  opacity: 0.85;
+}
+
+.close-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Trades section */
+.trades-section {
+  margin-bottom: 2rem;
+}
+
+.trades-section h2 {
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-bottom: 0.8rem;
+}
+
+.no-data {
+  color: #888;
+  padding: 2rem;
+  text-align: center;
+}
