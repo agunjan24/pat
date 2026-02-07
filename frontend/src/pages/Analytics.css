@@ -1,0 +1,124 @@
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.symbol-input {
+  background: #1a1a2e;
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  color: #fff;
+  font-size: 1rem;
+  width: 160px;
+  outline: none;
+}
+
+.symbol-input:focus {
+  border-color: #646cff;
+}
+
+.period-buttons {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.period-btn {
+  background: #1a1a2e;
+  border: 1px solid #444;
+  color: #aaa;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.15s;
+}
+
+.period-btn:hover {
+  border-color: #646cff;
+  color: #fff;
+}
+
+.period-btn.active {
+  background: #646cff;
+  border-color: #646cff;
+  color: #fff;
+}
+
+.go-btn {
+  background: #646cff;
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.go-btn:hover {
+  opacity: 0.85;
+}
+
+.go-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.metrics-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.metric-card {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.metric-label {
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metric-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.metric-value.dd {
+  color: #e55353;
+}
+
+.chart-container {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.chart-container h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+.error {
+  color: #e55353;
+  padding: 0.5rem 0;
+}
