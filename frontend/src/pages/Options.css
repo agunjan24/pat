@@ -1,0 +1,156 @@
+.opt-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.opt-btn {
+  background: #646cff;
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: opacity 0.15s;
+}
+
+.opt-btn:hover {
+  opacity: 0.85;
+}
+
+.opt-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Tabs */
+.tab-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
+}
+
+.tab {
+  background: transparent;
+  border: 1px solid #444;
+  color: #aaa;
+  padding: 0.5rem 1rem;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.15s;
+}
+
+.tab:hover {
+  color: #fff;
+  border-color: #646cff;
+}
+
+.tab.active {
+  background: #646cff;
+  border-color: #646cff;
+  color: #fff;
+}
+
+/* IV cards */
+.iv-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.iv-card {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.iv-label {
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.iv-value {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* Chart box */
+.chart-box {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.chart-box h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+/* LEAPS table */
+.leaps-summary {
+  color: #aaa;
+  margin-bottom: 1.5rem;
+}
+
+.leaps-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 2rem;
+}
+
+.leaps-table-wrap table {
+  font-size: 0.85rem;
+}
+
+.leaps-table-wrap td,
+.leaps-table-wrap th {
+  white-space: nowrap;
+  padding: 0.5rem 0.75rem;
+}
+
+/* Roll badges */
+.roll-badge {
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.roll-hold {
+  background: rgba(80, 200, 120, 0.15);
+  color: #50c878;
+}
+
+.roll-monitor {
+  background: rgba(245, 166, 35, 0.15);
+  color: #f5a623;
+}
+
+.roll-now {
+  background: rgba(229, 83, 83, 0.15);
+  color: #e55353;
+}
+
+.no-data {
+  color: #888;
+  padding: 2rem;
+  text-align: center;
+}
