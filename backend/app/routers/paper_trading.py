@@ -130,6 +130,28 @@ async def close_paper_trade(
     return trade
 
 
+@router.post("/reset", response_model=PaperAccountOut)
+async def reset_paper_account(db: AsyncSession = Depends(get_db)):
+    """Reset the paper trading account: delete all trades, restore cash to $100k."""
+    from sqlalchemy import delete as sql_delete
+
+    await db.execute(sql_delete(PaperTrade))
+
+    # Reset or create account
+    result = await db.execute(select(PaperAccount).limit(1))
+    account = result.scalars().first()
+    if account:
+        account.initial_cash = 100_000
+        account.current_cash = 100_000
+    else:
+        account = PaperAccount(name="Default", initial_cash=100_000, current_cash=100_000)
+        db.add(account)
+
+    await db.commit()
+    await db.refresh(account)
+    return account
+
+
 @router.get("/trades", response_model=list[PaperTradeOut])
 async def list_paper_trades(
     status: str | None = None,

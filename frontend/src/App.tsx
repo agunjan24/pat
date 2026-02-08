@@ -8,6 +8,7 @@ import Optimize from "./pages/Optimize";
 import Alerts from "./pages/Alerts";
 import PaperTrading from "./pages/PaperTrading";
 import Architecture from "./pages/Architecture";
+import Help from "./pages/Help";
 import "./App.css";
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <NavLink to="/paper">Paper Trade</NavLink>
         <NavLink to="/import">Import</NavLink>
         <NavLink to="/architecture">Architecture</NavLink>
+        <NavLink to="/help">Help</NavLink>
       </nav>
       <main className="main">
         <Routes>
@@ -36,6 +38,7 @@ function App() {
           <Route path="/paper" element={<PaperTrading />} />
           <Route path="/import" element={<Import />} />
           <Route path="/architecture" element={<Architecture />} />
+          <Route path="/help" element={<Help />} />
         </Routes>
       </main>
     </BrowserRouter>

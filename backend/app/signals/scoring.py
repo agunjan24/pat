@@ -11,13 +11,17 @@ in the range [-1, +1]:
 import pandas as pd
 
 from app.signals.technical import (
+    accumulation_distribution,
+    adx,
     atr,
     bollinger_pct_b,
+    chaikin_money_flow,
     ema,
     macd,
     obv,
     rsi,
     sma,
+    stochastic,
 )
 
 
@@ -141,4 +145,140 @@ def score_volume_trend(close: pd.Series, volume: pd.Series, window: int = 20) ->
     # Confirms trend if OBV aligns with price direction
     if (obv_deviation > 0 and price_direction > 0) or (obv_deviation < 0 and price_direction < 0):
         return _clamp(price_direction * min(abs(obv_deviation), 1.0))
+    return 0.0
+
+
+# ──────────────────────────────────────────────
+# ADX / Trend Strength
+# ──────────────────────────────────────────────
+
+
+def score_adx(high: pd.Series, low: pd.Series, close: pd.Series) -> float:
+    """ADX trend strength: trending + bullish → buy, trending + bearish → sell.
+
+    ADX > 25 AND +DI > -DI = bullish (+0.5 to +1).
+    ADX > 25 AND -DI > +DI = bearish (-0.5 to -1).
+    ADX < 20 = no clear trend → neutral (0).
+    """
+    adx_series, plus_di, minus_di = adx(high, low, close)
+    if adx_series.isna().iloc[-1]:
+        return 0.0
+    adx_val = adx_series.iloc[-1]
+    plus_val = plus_di.iloc[-1]
+    minus_val = minus_di.iloc[-1]
+
+    if adx_val < 20:
+        return 0.0  # no trend
+
+    # Scale trend strength: ADX 25→0.5, ADX 50→1.0
+    strength = _clamp((adx_val - 20) / 30, 0.0, 1.0) * 0.5 + 0.5
+
+    if plus_val > minus_val:
+        return _clamp(strength)
+    else:
+        return _clamp(-strength)
+
+
+# ──────────────────────────────────────────────
+# Stochastic Oscillator
+# ──────────────────────────────────────────────
+
+
+def score_stochastic(high: pd.Series, low: pd.Series, close: pd.Series) -> float:
+    """Stochastic: oversold (<20) → buy, overbought (>80) → sell.
+
+    Bonus when %K crosses %D (momentum shift).
+    """
+    pct_k, pct_d = stochastic(high, low, close)
+    if pct_k.isna().iloc[-1] or pct_d.isna().iloc[-1]:
+        return 0.0
+
+    k_val = pct_k.iloc[-1]
+    d_val = pct_d.iloc[-1]
+
+    score = 0.0
+    if k_val <= 20:
+        score = _clamp((20 - k_val) / 20)  # 20→0, 0→1
+    elif k_val >= 80:
+        score = _clamp(-(k_val - 80) / 20)  # 80→0, 100→-1
+
+    # Cross bonus: %K crossing above %D = bullish, below = bearish
+    if len(pct_k) >= 2 and len(pct_d) >= 2:
+        prev_k = pct_k.iloc[-2]
+        prev_d = pct_d.iloc[-2]
+        if not (pd.isna(prev_k) or pd.isna(prev_d)):
+            if prev_k <= prev_d and k_val > d_val:
+                score = _clamp(score + 0.3)
+            elif prev_k >= prev_d and k_val < d_val:
+                score = _clamp(score - 0.3)
+
+    return score
+
+
+# ──────────────────────────────────────────────
+# A/D Line
+# ──────────────────────────────────────────────
+
+
+def score_ad_line(
+    high: pd.Series, low: pd.Series, close: pd.Series, volume: pd.Series, window: int = 20
+) -> float:
+    """A/D line trend vs price trend — divergence = reversal, confirmation = continuation."""
+    ad = accumulation_distribution(high, low, close, volume)
+    if len(ad) < window:
+        return 0.0
+
+    ad_ma = sma(ad, window)
+    price_ma = sma(close, window)
+    if ad_ma.isna().iloc[-1] or price_ma.isna().iloc[-1]:
+        return 0.0
+
+    # Direction of A/D vs price
+    ad_rising = ad.iloc[-1] > ad_ma.iloc[-1]
+    price_rising = close.iloc[-1] > price_ma.iloc[-1]
+
+    if ad_rising and price_rising:
+        return 0.5  # confirmation: bullish
+    elif not ad_rising and not price_rising:
+        return -0.5  # confirmation: bearish
+    elif ad_rising and not price_rising:
+        return 0.7  # bullish divergence: accumulation despite price drop
+    else:  # not ad_rising and price_rising
+        return -0.7  # bearish divergence: distribution despite price rise
+
+
+# ──────────────────────────────────────────────
+# Chaikin Money Flow
+# ──────────────────────────────────────────────
+
+
+def score_cmf(
+    high: pd.Series, low: pd.Series, close: pd.Series, volume: pd.Series
+) -> float:
+    """CMF > 0 = buying pressure (bullish), < 0 = selling pressure. Scaled by magnitude."""
+    cmf = chaikin_money_flow(high, low, close, volume)
+    if cmf.isna().iloc[-1]:
+        return 0.0
+    # CMF is already bounded roughly [-1, +1]; scale directly
+    return _clamp(cmf.iloc[-1] * 2)
+
+
+# ──────────────────────────────────────────────
+# Put/Call Ratio
+# ──────────────────────────────────────────────
+
+
+def score_put_call_ratio(ratio: float | None) -> float:
+    """Contrarian sentiment: high put/call = fear (buy), low = complacency (sell).
+
+    ratio > 1.2 → excessive fear → contrarian buy signal
+    ratio < 0.5 → complacency → contrarian sell signal
+    Returns 0.0 if ratio is None or NaN.
+    """
+    if ratio is None or pd.isna(ratio):
+        return 0.0
+    if ratio > 1.2:
+        return _clamp((ratio - 1.2) / 0.8)  # 1.2→0, 2.0→1
+    elif ratio < 0.5:
+        return _clamp(-(0.5 - ratio) / 0.5)  # 0.5→0, 0.0→-1
     return 0.0

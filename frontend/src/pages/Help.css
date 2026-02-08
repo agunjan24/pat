@@ -1,0 +1,132 @@
+.help-page {
+  max-width: 960px;
+}
+
+.help-section {
+  margin-bottom: 2.5rem;
+}
+
+.help-section h2 {
+  color: #646cff;
+  font-size: 1.3rem;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.help-section h3 {
+  color: #ccc;
+  font-size: 1.05rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.help-section h4 {
+  color: #ddd;
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+}
+
+.help-desc {
+  color: #aaa;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.help-desc code {
+  background: #1a1a2e;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.9em;
+  color: #61dafb;
+}
+
+.help-note {
+  color: #888;
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-top: 0.8rem;
+}
+
+/* Tables */
+.help-section table {
+  font-size: 0.9rem;
+}
+
+.help-section td.mono {
+  font-family: monospace;
+  font-weight: 600;
+  color: #61dafb;
+  white-space: nowrap;
+}
+
+.help-section td.center {
+  text-align: center;
+  font-weight: 600;
+  color: #f5a623;
+}
+
+/* Grid cards */
+.help-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.help-card {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.help-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.help-card li {
+  padding: 0.3rem 0;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.help-card p {
+  color: #aaa;
+  font-size: 0.85rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Tags */
+.tag {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-right: 0.4rem;
+}
+
+.tag.buy {
+  background: rgba(80, 200, 120, 0.15);
+  color: #50c878;
+}
+
+.tag.sell {
+  background: rgba(229, 83, 83, 0.15);
+  color: #e55353;
+}
+
+.tag.hold {
+  background: rgba(100, 108, 255, 0.15);
+  color: #646cff;
+}
+
+.tag.monitor {
+  background: rgba(245, 166, 35, 0.15);
+  color: #f5a623;
+}

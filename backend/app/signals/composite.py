@@ -10,24 +10,36 @@ from dataclasses import dataclass
 import pandas as pd
 
 from app.signals.scoring import (
+    score_ad_line,
+    score_adx,
     score_bollinger,
+    score_cmf,
     score_ma_crossover,
     score_macd,
     score_mean_reversion,
+    score_put_call_ratio,
     score_rsi,
+    score_stochastic,
     score_trend,
     score_volume_trend,
 )
 
 # Weights for each signal category
 WEIGHTS = {
-    "ma_crossover": 0.15,
-    "rsi": 0.15,
-    "macd": 0.15,
-    "bollinger": 0.10,
-    "mean_reversion": 0.10,
-    "trend": 0.20,
-    "volume": 0.15,
+    # Existing (rebalanced)
+    "ma_crossover": 0.10,
+    "rsi": 0.10,
+    "macd": 0.10,
+    "bollinger": 0.07,
+    "mean_reversion": 0.07,
+    "trend": 0.12,
+    "volume": 0.08,
+    # New
+    "adx": 0.10,
+    "stochastic": 0.08,
+    "ad_line": 0.06,
+    "cmf": 0.07,
+    "put_call_ratio": 0.05,
 }
 
 
@@ -80,18 +92,27 @@ def _confidence(signals: list[SignalDetail]) -> int:
     return int(min(100, (agreement * 70 + data_quality * 30)))
 
 
-def compute_composite(symbol: str, df: pd.DataFrame) -> CompositeSignal:
+def compute_composite(
+    symbol: str, df: pd.DataFrame, put_call_ratio: float | None = None
+) -> CompositeSignal:
     """Compute composite signal from OHLCV DataFrame.
 
     Args:
         symbol: Ticker symbol for labeling.
         df: DataFrame with columns: Open, High, Low, Close, Volume.
+        put_call_ratio: Optional put/call volume ratio from options chain.
+            When None, that signal scores 0.0 and its weight is redistributed.
 
     Returns:
         CompositeSignal with direction, conviction, and individual breakdowns.
     """
     close = df["Close"]
+    high = df["High"]
+    low = df["Low"]
     volume = df["Volume"]
+
+    # Score put/call ratio (may be None → 0.0)
+    pc_score = score_put_call_ratio(put_call_ratio)
 
     signal_results: list[SignalDetail] = []
 
@@ -103,6 +124,10 @@ def compute_composite(symbol: str, df: pd.DataFrame) -> CompositeSignal:
         ("mean_reversion", score_mean_reversion, [close], "Z-score mean reversion"),
         ("trend", score_trend, [close], "EMA 20/50/200 alignment"),
         ("volume", score_volume_trend, [close, volume], "OBV trend confirmation"),
+        ("adx", score_adx, [high, low, close], "ADX trend strength"),
+        ("stochastic", score_stochastic, [high, low, close], "Stochastic %K/%D oscillator"),
+        ("ad_line", score_ad_line, [high, low, close, volume], "A/D line vs price trend"),
+        ("cmf", score_cmf, [high, low, close, volume], "Chaikin Money Flow pressure"),
     ]
 
     for name, fn, args, desc in evaluators:
@@ -116,6 +141,28 @@ def compute_composite(symbol: str, df: pd.DataFrame) -> CompositeSignal:
             weight=WEIGHTS[name],
             description=desc,
         ))
+
+    # Put/call ratio is pre-computed (not from OHLCV)
+    signal_results.append(SignalDetail(
+        name="put_call_ratio",
+        score=round(pc_score, 4),
+        weight=WEIGHTS["put_call_ratio"],
+        description="Put/call ratio contrarian sentiment",
+    ))
+
+    # When put_call_ratio data is unavailable, redistribute its weight
+    if put_call_ratio is None:
+        pc_weight = WEIGHTS["put_call_ratio"]
+        other_weight_sum = sum(
+            s.weight for s in signal_results if s.name != "put_call_ratio"
+        )
+        if other_weight_sum > 0:
+            scale = 1.0 / other_weight_sum
+            for s in signal_results:
+                if s.name != "put_call_ratio":
+                    s.weight = round(s.weight * scale, 4)
+                else:
+                    s.weight = 0.0
 
     # Weighted composite
     composite = sum(s.score * s.weight for s in signal_results)

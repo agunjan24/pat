@@ -105,6 +105,11 @@ test.describe("Alerts", () => {
 // ── Paper Trading ────────────────────────────────────────────────────────────
 
 test.describe("Paper Trading", () => {
+  test.beforeAll(async ({ request }) => {
+    // Reset paper account so tests start from a clean $100k state
+    await request.post(`${API}/paper/reset`);
+  });
+
   test("shows default account with $100k", async ({ page }) => {
     await page.goto(`${BASE}/paper`);
     await expect(page.locator("h1")).toHaveText("Paper Trading");

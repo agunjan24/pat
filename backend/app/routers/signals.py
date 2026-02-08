@@ -1,11 +1,30 @@
+import logging
+
 from fastapi import APIRouter, HTTPException, Query
 
 from app.schemas.signals import RiskContext, ScanResult, SignalDetailOut
 from app.signals.composite import compute_composite
 from app.signals.risk import compute_risk_context
-from app.tracker.market_data import get_history
+from app.signals.technical import put_call_volume_ratio
+from app.tracker.market_data import get_history, get_option_chain, get_option_expirations
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
+
+
+async def _fetch_put_call_ratio(symbol: str) -> float | None:
+    """Try to fetch nearest-expiry put/call volume ratio. Returns None on failure."""
+    try:
+        expirations = await get_option_expirations(symbol)
+        if not expirations:
+            return None
+        nearest = expirations[0]
+        chain = await get_option_chain(symbol, nearest)
+        return put_call_volume_ratio(chain["calls"], chain["puts"])
+    except Exception:
+        logger.debug("Could not fetch options data for %s", symbol, exc_info=True)
+        return None
 
 
 @router.get("/scan", response_model=ScanResult)
@@ -18,7 +37,10 @@ async def scan_signals(
     if df.empty:
         raise HTTPException(status_code=404, detail=f"No data found for {symbol}")
 
-    composite = compute_composite(symbol.upper(), df)
+    # Optionally fetch put/call ratio (never blocks scan on failure)
+    pc_ratio = await _fetch_put_call_ratio(symbol.upper())
+
+    composite = compute_composite(symbol.upper(), df, put_call_ratio=pc_ratio)
 
     risk = compute_risk_context(
         df,
