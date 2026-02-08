@@ -48,84 +48,56 @@ const CONTEXT_DIAGRAM = `graph LR
   PAT -->|"Prices, OHLCV,\nchains via yfinance"| YAHOO
   CSV -->|"Upload\nmultipart"| PAT`;
 
-const ARCHITECTURE_DIAGRAM = `graph LR
-  subgraph Frontend ["Frontend — React + TypeScript + Recharts"]
-    direction TB
-    APP["App.tsx — Router & Nav"]
-    APP --> DASH["Dashboard\\nSummary, P&L, Allocation"]
-    APP --> ANAL["Analytics\\nPrice & Volume Charts, Risk Metrics"]
-    APP --> SIG["Signals\\nComposite Score, Risk Context"]
-    APP --> OPT["Options & LEAPS\\nIV, Skew, Term Structure, Greeks"]
-    APP --> OPTIM["Optimize\\nEfficient Frontier, Weights"]
-    APP --> ALERT["Alerts\\nCreate, Check, Manage"]
-    APP --> PAPER["Paper Trading\\nOpen/Close Trades, P&L"]
-    APP --> IMP["Import\\nCSV Upload"]
-    AXIOS["Axios Client — baseURL: /api"]
+const ARCHITECTURE_DIAGRAM = `graph TB
+  classDef frontend fill:#264653,stroke:#2a9d8f,color:#fff
+  classDef api fill:#1a3a5c,stroke:#4a9eff,color:#fff
+  classDef module fill:#2d1b4e,stroke:#8b5cf6,color:#fff
+  classDef storage fill:#1a1a2e,stroke:#646cff,color:#fff
+  classDef external fill:#4a3728,stroke:#e67e22,color:#fff
+
+  subgraph Frontend ["Frontend — React + TS"]
+    PAGES["Dashboard · Analytics · Signals · Options<br/>Optimize · Alerts · Paper Trade · Import"]:::frontend
+    AXIOS["Axios HTTP Client"]:::frontend
+    PAGES --> AXIOS
   end
 
-  subgraph Backend ["Backend — FastAPI + SQLAlchemy Async"]
-    direction TB
-
-    subgraph Routers ["API Routers"]
-      R_PORT["/api/portfolio\\nAsset & Position CRUD"]
-      R_ANAL["/api/analyze\\nSummary, Performance, Optimize"]
-      R_SIG["/api/signals\\nComposite Scan"]
-      R_OPT["/api/options\\nOverview, LEAPS"]
-      R_ALERT["/api/alerts\\nCRUD + Check"]
-      R_PAPER["/api/paper\\nTrades, Summary"]
-      R_IMP["/api/portfolio/import\\nCSV Import"]
-    end
-
-    subgraph Analyzer ["Analyzer Module"]
-      METRICS["metrics.py\\nSharpe, CAGR, Drawdown"]
-      GREEKS["greeks.py\\nBlack-Scholes, Greeks, IV"]
-      OPT_ANAL["options.py\\nIV Rank, Skew, Term Structure"]
-      LEAPS["leaps.py\\nTheta Efficiency, Roll Timing"]
-      OPTIMIZER["optimizer.py\\nMonte Carlo Frontier, Risk Parity"]
-    end
-
-    subgraph Signals ["Signal Engine"]
-      TECH["technical.py\\nSMA, EMA, RSI, MACD, BB, ATR, OBV"]
-      SCORE["scoring.py\\n7 Evaluators → [-1, +1]"]
-      COMP["composite.py\\nWeighted Aggregate"]
-      RISK["risk.py\\nATR Stop, Kelly, Position Sizing"]
-    end
-
-    subgraph Tracker ["Tracker Module"]
-      MDATA["market_data.py\\nPrices, OHLCV, Option Chains"]
-      CSV["csv_import.py\\nParse, Alias, Validate"]
-    end
-
-    subgraph DataLayer ["Data Layer"]
-      DB[("SQLite — pat.db")]
-      MODELS["Models\\nAsset, Position, Transaction\\nAlert, PaperTrade, PaperAccount"]
-    end
+  subgraph API ["API Layer — FastAPI"]
+    direction LR
+    R_PORT["/portfolio"]:::api
+    R_ANAL["/analyze"]:::api
+    R_SIG["/signals"]:::api
+    R_OPT["/options"]:::api
+    R_ALERT["/alerts"]:::api
+    R_PAPER["/paper"]:::api
+    R_IMP["/import"]:::api
   end
 
-  subgraph External ["External"]
-    YAHOO["Yahoo Finance\\n(yfinance)"]
+  subgraph Modules ["Backend Modules"]
+    direction LR
+    ANALYZER["Analyzer<br/>Metrics · Greeks · IV<br/>LEAPS · Optimizer"]:::module
+    SIGNALS["Signal Engine<br/>Technical → Scoring<br/>→ Composite → Risk"]:::module
+    TRACKER["Tracker<br/>Market Data · CSV Import"]:::module
+    MODELS["ORM Models<br/>Asset · Position · Transaction<br/>Alert · PaperTrade"]:::module
   end
 
-  AXIOS -->|"HTTP/JSON"| Routers
+  DB[("SQLite — pat.db")]:::storage
+  YAHOO["Yahoo Finance — yfinance"]:::external
+
+  AXIOS -->|"HTTP/JSON"| API
+
   R_PORT --> MODELS
-  R_ANAL --> METRICS
-  R_ANAL --> MDATA
-  R_ANAL --> OPTIMIZER
-  R_SIG --> COMP
-  R_OPT --> GREEKS
-  R_OPT --> OPT_ANAL
-  R_OPT --> LEAPS
-  R_OPT --> MDATA
+  R_ANAL --> ANALYZER
+  R_SIG --> SIGNALS
+  R_OPT --> ANALYZER
   R_ALERT --> MODELS
-  R_ALERT --> MDATA
   R_PAPER --> MODELS
-  R_IMP --> CSV
-  R_IMP --> MODELS
-  TECH --> SCORE
-  SCORE --> COMP
-  COMP --> RISK
+  R_IMP --> TRACKER
+
+  ANALYZER --> TRACKER
+  SIGNALS --> TRACKER
+
   MODELS --> DB
-  MDATA -->|"asyncio.to_thread"| YAHOO`;
+  TRACKER --> YAHOO`;
 
 const DATA_FLOW_DIAGRAM = `graph LR
   subgraph Ingest ["1. Ingest"]
