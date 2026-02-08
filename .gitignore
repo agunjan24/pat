@@ -25,3 +25,14 @@ Thumbs.db
 # Env
 .env
 .env.local
+
+# Claude Code
+.claude/
+
+# Test artifacts
+test-results/
+frontend/test-results/
+
+# Temp files
+nul
+tmp_openapi.json
