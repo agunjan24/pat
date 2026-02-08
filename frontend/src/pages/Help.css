@@ -130,3 +130,10 @@
   background: rgba(245, 166, 35, 0.15);
   color: #f5a623;
 }
+
+/* Plain English column */
+.plain-english {
+  font-style: italic;
+  font-size: 0.85em;
+  color: #c4a96a;
+}
