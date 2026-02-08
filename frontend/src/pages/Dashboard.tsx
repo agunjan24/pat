@@ -8,7 +8,7 @@ import {
   Legend,
 } from "recharts";
 import api from "../api/client";
-import { PortfolioSummary } from "../types/analyzer";
+import type { PortfolioSummary } from "../types/analyzer";
 import "./Dashboard.css";
 
 const COLORS = [

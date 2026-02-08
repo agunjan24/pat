@@ -12,7 +12,7 @@ import {
   Legend,
 } from "recharts";
 import api from "../api/client";
-import { OptionsAnalysis, LeapsAnalysis } from "../types/options";
+import type { OptionsAnalysis, LeapsAnalysis } from "../types/options";
 import "./Options.css";
 
 function formatPct(value: number): string {

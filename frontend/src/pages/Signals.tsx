@@ -11,7 +11,7 @@ import {
   ReferenceLine,
 } from "recharts";
 import api from "../api/client";
-import { ScanResult } from "../types/signals";
+import type { ScanResult } from "../types/signals";
 import "./Signals.css";
 
 function formatCurrency(value: number): string {

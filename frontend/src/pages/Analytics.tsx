@@ -13,7 +13,7 @@ import {
   Bar,
 } from "recharts";
 import api from "../api/client";
-import { PerformanceResponse } from "../types/analyzer";
+import type { PerformanceResponse } from "../types/analyzer";
 import "./Analytics.css";
 
 const PERIODS = ["1mo", "3mo", "6mo", "1y", "2y", "5y"] as const;
