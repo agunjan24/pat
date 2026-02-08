@@ -1,0 +1,128 @@
+/* Wave analysis header */
+.wave-header {
+  background: #1a1a2e;
+  border: 2px solid;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.wave-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.wave-pattern {
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+
+.wave-current {
+  font-size: 1.1rem;
+  color: #aaa;
+}
+
+.confidence-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.confidence-high {
+  background: rgba(80, 200, 120, 0.2);
+  color: #50c878;
+}
+
+.confidence-medium {
+  background: rgba(245, 166, 35, 0.2);
+  color: #f5a623;
+}
+
+.confidence-low {
+  background: rgba(136, 136, 136, 0.2);
+  color: #888;
+}
+
+/* Fibonacci levels grid */
+.fib-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.fib-card {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.fib-ratio {
+  font-size: 0.75rem;
+  color: #646cff;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.fib-price {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.fib-label {
+  font-size: 0.75rem;
+  color: #888;
+}
+
+/* Wave pivots table */
+.pivot-section {
+  margin-bottom: 2rem;
+}
+
+.pivot-section h2 {
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-bottom: 0.75rem;
+}
+
+/* Reuse signal chart / risk card styles from Signals.css */
+.ew-signal-chart {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.ew-signal-chart h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+.ew-direction {
+  font-size: 1.8rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+
+.ew-rec-meta {
+  display: flex;
+  gap: 2rem;
+  color: #888;
+  font-size: 0.9rem;
+}

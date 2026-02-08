@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Analytics from "./pages/Analytics";
 import Signals from "./pages/Signals";
+import ElliottWave from "./pages/ElliottWave";
 import Options from "./pages/Options";
 import Import from "./pages/Import";
 import Optimize from "./pages/Optimize";
@@ -19,6 +20,7 @@ function App() {
         <NavLink to="/">Dashboard</NavLink>
         <NavLink to="/analytics">Analytics</NavLink>
         <NavLink to="/signals">Signals</NavLink>
+        <NavLink to="/elliott-wave">Elliott Wave</NavLink>
         <NavLink to="/options">Options</NavLink>
         <NavLink to="/optimize">Optimize</NavLink>
         <NavLink to="/alerts">Alerts</NavLink>
@@ -32,6 +34,7 @@ function App() {
           <Route path="/" element={<Dashboard />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/signals" element={<Signals />} />
+          <Route path="/elliott-wave" element={<ElliottWave />} />
           <Route path="/options" element={<Options />} />
           <Route path="/optimize" element={<Optimize />} />
           <Route path="/alerts" element={<Alerts />} />

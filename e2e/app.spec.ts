@@ -18,6 +18,7 @@ test.describe("Navigation", () => {
     await expect(nav.getByRole("link", { name: "Dashboard" })).toBeVisible();
     await expect(nav.getByRole("link", { name: "Analytics" })).toBeVisible();
     await expect(nav.getByRole("link", { name: "Signals" })).toBeVisible();
+    await expect(nav.getByRole("link", { name: "Elliott Wave" })).toBeVisible();
     await expect(nav.getByRole("link", { name: "Options" })).toBeVisible();
     await expect(nav.getByRole("link", { name: "Optimize" })).toBeVisible();
     await expect(nav.getByRole("link", { name: "Alerts" })).toBeVisible();
@@ -33,6 +34,9 @@ test.describe("Navigation", () => {
 
     await page.click('a[href="/signals"]');
     await expect(page.locator("h1")).toHaveText("Signal Scanner");
+
+    await page.click('a[href="/elliott-wave"]');
+    await expect(page.locator("h1")).toHaveText("Elliott Wave");
 
     await page.click('a[href="/options"]');
     await expect(page.locator("h1")).toHaveText("Options & LEAPS");
