@@ -37,17 +37,18 @@
   min-height: 400px;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .mermaid-container {
   width: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+  overflow-x: auto;
 }
 
 .mermaid-container svg {
-  max-width: 100%;
+  min-width: 900px;
   height: auto;
 }
 

@@ -5,6 +5,16 @@ import "./Architecture.css";
 mermaid.initialize({
   startOnLoad: false,
   theme: "dark",
+  fontSize: 14,
+  flowchart: {
+    nodeSpacing: 30,
+    rankSpacing: 50,
+    padding: 15,
+    htmlLabels: true,
+  },
+  er: {
+    fontSize: 14,
+  },
   themeVariables: {
     primaryColor: "#646cff",
     primaryTextColor: "#fff",
@@ -18,27 +28,27 @@ mermaid.initialize({
     clusterBkg: "#16213e",
     clusterBorder: "#333",
     titleColor: "#fff",
-    edgeLabelBackground: "#1a1a2e",
+    edgeLabelBackground: "#2a2a3e",
   },
 });
 
-const CONTEXT_DIAGRAM = `C4Context
-  title PAT — System Context Diagram
+const CONTEXT_DIAGRAM = `graph LR
+  classDef person fill:#08427b,stroke:#052e56,color:#fff
+  classDef system fill:#1168bd,stroke:#0b4884,color:#fff
+  classDef external fill:#999,stroke:#666,color:#fff
 
-  Person(user, "Investor / Trader", "Manages portfolios, analyzes signals, trades options")
+  USER["👤 Investor / Trader\nManages portfolios,\nanalyzes signals"]:::person
+  BROWSER["🌐 Web Browser\nReact SPA"]:::external
+  PAT["🔷 PAT\nPortfolio tracking,\nsignal generation,\noptions analysis"]:::system
+  YAHOO["📈 Yahoo Finance\nMarket data,\noption chains"]:::external
+  CSV["📄 CSV Files\nBrokerage exports"]:::external
 
-  System(pat, "PAT", "Portfolio tracking, signal generation, options analysis, paper trading")
+  USER -->|"Interacts via"| BROWSER
+  BROWSER -->|"REST API\nHTTP/JSON"| PAT
+  PAT -->|"Prices, OHLCV,\nchains via yfinance"| YAHOO
+  CSV -->|"Upload\nmultipart"| PAT`;
 
-  System_Ext(yahoo, "Yahoo Finance", "Market data, option chains")
-  System_Ext(browser, "Web Browser", "React SPA")
-  System_Ext(csv, "CSV Files", "Brokerage exports")
-
-  Rel(user, browser, "Interacts via")
-  Rel(browser, pat, "REST API", "HTTP/JSON")
-  Rel(pat, yahoo, "Prices, OHLCV, chains", "yfinance")
-  Rel(csv, pat, "Upload", "multipart")`;
-
-const ARCHITECTURE_DIAGRAM = `graph TB
+const ARCHITECTURE_DIAGRAM = `graph LR
   subgraph Frontend ["Frontend — React + TypeScript + Recharts"]
     direction TB
     APP["App.tsx — Router & Nav"]
