@@ -7,6 +7,7 @@ import Options from "./pages/Options";
 import Import from "./pages/Import";
 import Optimize from "./pages/Optimize";
 import Alerts from "./pages/Alerts";
+import Backtest from "./pages/Backtest";
 import PaperTrading from "./pages/PaperTrading";
 import Architecture from "./pages/Architecture";
 import Help from "./pages/Help";
@@ -22,6 +23,7 @@ function App() {
         <NavLink to="/signals">Signals</NavLink>
         <NavLink to="/elliott-wave">Elliott Wave</NavLink>
         <NavLink to="/options">Options</NavLink>
+        <NavLink to="/backtest">Backtest</NavLink>
         <NavLink to="/optimize">Optimize</NavLink>
         <NavLink to="/alerts">Alerts</NavLink>
         <NavLink to="/paper">Paper Trade</NavLink>
@@ -36,6 +38,7 @@ function App() {
           <Route path="/signals" element={<Signals />} />
           <Route path="/elliott-wave" element={<ElliottWave />} />
           <Route path="/options" element={<Options />} />
+          <Route path="/backtest" element={<Backtest />} />
           <Route path="/optimize" element={<Optimize />} />
           <Route path="/alerts" element={<Alerts />} />
           <Route path="/paper" element={<PaperTrading />} />

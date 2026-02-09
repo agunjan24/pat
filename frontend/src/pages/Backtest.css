@@ -1,0 +1,180 @@
+.backtest-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.backtest-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.backtest-controls input {
+  font-size: 1rem;
+}
+
+.run-btn {
+  background: #646cff;
+  border: none;
+  color: #fff;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: opacity 0.15s;
+  align-self: flex-end;
+}
+
+.run-btn:hover {
+  opacity: 0.85;
+}
+
+.run-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Summary cards grid */
+.horizon-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.horizon-card {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.2rem;
+}
+
+.horizon-card h3 {
+  margin: 0 0 0.75rem;
+  font-size: 1rem;
+  color: #646cff;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.horizon-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.horizon-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.horizon-stat .stat-label {
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.horizon-stat .stat-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.stat-positive {
+  color: #50c878 !important;
+}
+
+.stat-negative {
+  color: #e55353 !important;
+}
+
+/* Chart containers */
+.backtest-chart-container {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.backtest-chart-container h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+/* Conviction table */
+.conviction-table-section {
+  margin-bottom: 2rem;
+}
+
+.conviction-table-section h2 {
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-bottom: 0.75rem;
+}
+
+/* Daily detail table */
+.daily-table-section {
+  margin-bottom: 2rem;
+}
+
+.daily-table-section h2 {
+  font-size: 1.1rem;
+  color: #ccc;
+  margin-bottom: 0.75rem;
+}
+
+.daily-table-wrapper {
+  max-height: 500px;
+  overflow-y: auto;
+  border: 1px solid #333;
+  border-radius: 8px;
+}
+
+.daily-table-wrapper table {
+  width: 100%;
+}
+
+.daily-table-wrapper thead th {
+  position: sticky;
+  top: 0;
+  background: #1a1a2e;
+  z-index: 1;
+}
+
+.dir-buy {
+  color: #50c878;
+  font-weight: 600;
+}
+
+.dir-sell {
+  color: #e55353;
+  font-weight: 600;
+}
+
+.dir-hold {
+  color: #888;
+}
+
+.backtest-meta {
+  display: flex;
+  gap: 2rem;
+  color: #888;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.backtest-meta strong {
+  color: #ccc;
+}

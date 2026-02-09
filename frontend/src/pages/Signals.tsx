@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   BarChart,
   Bar,
@@ -39,6 +40,7 @@ function convictionBadge(conviction: string): string {
 }
 
 export default function Signals() {
+  const navigate = useNavigate();
   const [symbol, setSymbol] = useState("");
   const [result, setResult] = useState<ScanResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -115,6 +117,13 @@ export default function Signals() {
               <span>
                 Confidence: <strong>{result.confidence}</strong>/100
               </span>
+              <button
+                className="scan-btn"
+                style={{ marginLeft: "auto", padding: "0.4rem 1rem", fontSize: "0.85rem" }}
+                onClick={() => navigate(`/backtest?symbol=${result.symbol}`)}
+              >
+                Backtest
+              </button>
             </div>
           </div>
 
