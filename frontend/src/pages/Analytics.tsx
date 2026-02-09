@@ -14,7 +14,7 @@ import {
   ComposedChart,
   ReferenceLine,
   Legend,
-  Cell,
+  Brush,
 } from "recharts";
 import api from "../api/client";
 import type { PerformanceResponse, PricePoint } from "../types/analyzer";
@@ -127,7 +127,8 @@ interface ChartPoint {
   rsi?: number | null;
   macd?: number | null;
   macdSignal?: number | null;
-  macdHist?: number | null;
+  macdHistPos?: number | null;
+  macdHistNeg?: number | null;
 }
 
 function buildChartData(prices: PricePoint[]): ChartPoint[] {
@@ -148,7 +149,8 @@ function buildChartData(prices: PricePoint[]): ChartPoint[] {
     rsi: rsi[i],
     macd: macd.macd[i],
     macdSignal: macd.signal[i],
-    macdHist: macd.histogram[i],
+    macdHistPos: macd.histogram[i] != null && macd.histogram[i]! >= 0 ? macd.histogram[i] : null,
+    macdHistNeg: macd.histogram[i] != null && macd.histogram[i]! < 0 ? macd.histogram[i] : null,
   }));
 }
 
@@ -361,7 +363,7 @@ export default function Analytics() {
           {/* RSI Chart */}
           <div className="chart-container">
             <h2>RSI (14)</h2>
-            <ResponsiveContainer width="100%" height={180}>
+            <ResponsiveContainer width="100%" height={220}>
               <ComposedChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#333" />
                 <XAxis
@@ -389,6 +391,13 @@ export default function Analytics() {
                   strokeWidth={1.5}
                   connectNulls
                 />
+                <Brush
+                  dataKey="date"
+                  height={20}
+                  stroke="#646cff"
+                  fill="#1a1a2e"
+                  tickFormatter={(d: string) => d.slice(5)}
+                />
               </ComposedChart>
             </ResponsiveContainer>
           </div>
@@ -396,7 +405,7 @@ export default function Analytics() {
           {/* MACD Chart */}
           <div className="chart-container">
             <h2>MACD (12, 26, 9)</h2>
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="100%" height={240}>
               <ComposedChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#333" />
                 <XAxis
@@ -412,26 +421,20 @@ export default function Analytics() {
                     const labels: Record<string, string> = {
                       macd: "MACD",
                       macdSignal: "Signal",
-                      macdHist: "Histogram",
+                      macdHistPos: "Histogram",
+                      macdHistNeg: "Histogram",
                     };
                     return [value.toFixed(4), labels[name] || name];
                   }}
                 />
-                <Legend />
+                <Legend payload={[
+                  { value: "Histogram", type: "square", color: "#888" },
+                  { value: "MACD", type: "line", color: "#646cff" },
+                  { value: "Signal", type: "line", color: "#f5a623" },
+                ]} />
                 <ReferenceLine y={0} stroke="#555" />
-                <Bar dataKey="macdHist" name="Histogram">
-                  {chartData.map((d, i) => (
-                    <Cell
-                      key={i}
-                      fill={
-                        d.macdHist != null && d.macdHist >= 0
-                          ? "#50c878"
-                          : "#e55353"
-                      }
-                      opacity={0.6}
-                    />
-                  ))}
-                </Bar>
+                <Bar dataKey="macdHistPos" fill="#50c878" opacity={0.6} name="macdHistPos" legendType="none" stackId="hist" />
+                <Bar dataKey="macdHistNeg" fill="#e55353" opacity={0.6} name="macdHistNeg" legendType="none" stackId="hist" />
                 <Line
                   type="monotone"
                   dataKey="macd"
@@ -449,6 +452,13 @@ export default function Analytics() {
                   strokeWidth={1.5}
                   name="Signal"
                   connectNulls
+                />
+                <Brush
+                  dataKey="date"
+                  height={20}
+                  stroke="#646cff"
+                  fill="#1a1a2e"
+                  tickFormatter={(d: string) => d.slice(5)}
                 />
               </ComposedChart>
             </ResponsiveContainer>
